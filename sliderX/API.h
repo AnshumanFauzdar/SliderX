@@ -2,14 +2,110 @@
 #include <AsyncTCP.h>
 #include "ESPAsyncWebServer.h"
 
-const char *ap_ssid = "VALAR-AP";
+const char *ap_ssid = "SliderX";
 const char *ap_password = "password";
 
 String ip_address;
 
 AsyncWebServer server(80);
 
-const char WIFI_HTML[] = "Enter your home Wifi Name and Password <br> <br> <form action=\"/set_wifi\">\n    <label class=\"label\">Network Name</label>\n    <input type = \"text\" name = \"ssid\"/>\n    <br/>\n    <label>Network Password</label>\n    <input type = \"text\" name = \"pass\"/>\n    <br/>\n    <input type=\"submit\" value=\"Set Values\">\n</form>";
+const char WIFI_HTML[] = R"rawliteral(
+  <!DOCTYPE HTML><html>
+    <head>
+      <title>SliderX | WiFi</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="icon" href="data:,">
+      <!-- Favicon -->
+    <link href="https://uploads-ssl.webflow.com/605973cc848d5b825d71b8b9/606b14e3ccaf0de700f99e70_favicon.png"
+    rel="shortcut icon" type="image/x-icon" />
+      <!-- Bootstrap css -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <!-- Bootstrap icon css -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+      <style>
+          /* html {font-family: Arial; display: inline-block; text-align: center;} */
+          h3 {font-size: 1.8rem; color: rgb(255, 255, 255);}
+          h4 { font-size: 1.2rem; color: rgb(255, 255, 255);}
+          body { background-color: #000000;}
+
+.label_text
+{
+    font-size: 1rem; 
+    color: rgb(255, 255, 255);
+}          
+.input_text
+{
+    border-radius: 25px;
+    height: 1.5rem;
+}
+.wifi_button{
+    border-radius: 25px;
+    height: 2.5rem;
+    width: 10rem;
+    background-color: black; 
+  color: white; 
+  border: 2px solid #1DA1F2;
+}
+.wifi_button:hover {
+  background-color: #1DA1F2;
+  color: white;
+}
+.col_left{
+    text-align: right;
+    padding-right: 5%;
+    
+}
+.col_right{
+    text-align: left;
+    padding-right: 5%;
+
+}
+      </style>
+    </head>
+    <body>
+        <div class="container-fluid">
+            <div class="container">
+                <br>
+      <h3 class="text-center">Enter your WiFi Name and Password</h3> <br>
+    </div>
+       
+          <div class="container">
+            <form action="set_wifi" >
+          <div class="row label_text">
+
+              <div class="col col_left">
+                  <label class="label">Network Name</label>
+            </div>
+            <div class="col col_right">
+                <input type = "text" placeholder="WiFi SSID" class="input_text" name = "ssid"/>  
+            </div>
+       
+</div>
+
+<div class="row label_text">
+        <div class="col col_left">
+        <label>Network Password</label>
+    </div>
+    <div class="col col_right">
+        <input type = "text" placeholder="WiFi Password" class="input_text" name = "pass"/>
+    </div>
+</div>
+</div>
+  
+           <br/>
+           
+           <div class="text-center">
+               <h3>
+               <input type="submit" class="wifi_button" value="Set Values">
+            </h3>
+            </div>
+            
+    </form>
+</div>
+    </body>
+    </html>
+  )rawliteral";
 const char SETTINGS_HTML[] = "<h2>Valar Systems</h2>\n<h3>Motion Control</h3>\n<p>To learn more, please visit <a href=\"https://help.valarsystems.com/docs/VAL-1000/VAL-1000\">https://help.valarsystems.com</a></p>\n<p>To add this device to your network <a href=\"http://192.168.4.1/wifi\">go to http://192.168.4.1/wifi</a></p>\n<p>To remove this device from your network, press and hold the wifi reset button for 3+ seconds.</p>\n<br> \n<h2>Position</h2>\n<form action=\"/position\">\n    <p>Enter a value from 0-100. This is the percent of the max_steps value to move the motor.</p>\n    <label><b>move_to :</b></label>\n    <input value = \"%PLACEHOLDER_PERCENT%\" type = \"text\" name = \"move_percent\"/>\n    <br/>\n    <input type=\"submit\" value=\"Set Position\">\n    <p>You can also send an HTTP request to http://%PLACEHOLDER_IP_ADDRESS%/position?move_percent=%PLACEHOLDER_PERCENT%</p>\n</form>\n<br>\n<h2>Motor Parameters</h2>\n<form action=\"/set_motor\">\n    <p>Enter the max steps the motor should move. The percentage above will be based on the steps set here.</p>\n<p> There are <b>200 steps</b> per motor revolution.</p>\n<p> A <b>negative value</b> will move it on the opposite direction.</p> \n<p> Pressing the large button on the VAL-1000 will move the motor to this value. The other button will move the motor back to 0.</p>\n    <label><b>max_steps</b></label>\n    <input value = \"%PLACEHOLDER_MAX_STEPS%\" type = \"text\" name = \"max_steps\"/>\n    <p>You can also send an HTTP request to http://%PLACEHOLDER_IP_ADDRESS%/set_motor?max_steps=%PLACEHOLDER_MAX_STEPS%</p>\n    <br/>\n    <p>Enter a value from 400-2000. This is the amount of RMS current the motor will draw.</p>\n    <label><b>current</b></label>\n    <input value = \"%PLACEHOLDER_CURRENT%\" type = \"text\" name = \"current\"/>\n    <p>You can also send an HTTP request to http://%PLACEHOLDER_IP_ADDRESS%/set_motor?current=%PLACEHOLDER_MAX_STEPS%</p>\n    <br/>\n    <p>Enter a stall value from 0-255. The higher the value, the easier it will stall.</p>\n    <label><b>stall</b></label>\n    <input value = \"%PLACEHOLDER_STALL%\" type = \"text\" name = \"stall\"/>\n    <p>You can also send an HTTP request to http://%PLACEHOLDER_IP_ADDRESS%/set_motor?stall=%PLACEHOLDER_STALL%</p>\n    <br/>\n    <p>Enter an acceleration value. Slow acceleration may affect stall. Please read the guide to learn more.</p>\n    <label><b>accel</b></label>\n    <input value = \"%PLACEHOLDER_ACCEL%\" type = \"text\" name = \"accel\"/>\n    <p>You can also send an HTTP request to http://%PLACEHOLDER_IP_ADDRESS%/set_motor?accel=%PLACEHOLDER_ACCEL%</p>\n    <br/>\n    <p>Enter a maximum speed up to 500. To go faster, please read the guide to learn more.</p>\n    <label><b>max_speed</b></label>\n    <p>You can also send an HTTP request to http://%PLACEHOLDER_IP_ADDRESS%/set_motor?max_speed=%PLACEHOLDER_MAX_SPEED%</p>\n    <input value = \"%PLACEHOLDER_MAX_SPEED%\" type = \"text\" name = \"max_speed\"/>\n    <br>\n    <input type=\"submit\" value=\"Set Parameters\">\n<p>To set all values at once, send an HTTP request to http://%PLACEHOLDER_IP_ADDRESS%/set_motor?max_steps=%PLACEHOLDER_MAX_STEPS%&amp;current=%PLACEHOLDER_CURRENT%&stall=%PLACEHOLDER_STALL%&accel=%PLACEHOLDER_ACCEL%&max_speed=%PLACEHOLDER_MAX_SPEED%</p>\n</form>\n<br>\n<br>\n<p>Press this button to set the home position of your motor to zero</p>\n<form action=\"/set_zero\">\n<input type=\"hidden\" name=\"set_zero\" value=\"1\" />\n<input type=\"submit\" value=\"Set Zero\">\n</form>";
 
 String processor(const String& var)
