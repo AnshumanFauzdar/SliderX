@@ -1,0 +1,504 @@
+<!DOCTYPE HTML><html>
+    <head>
+      <title>SliderX</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="icon" href="data:,">
+      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+      <style>
+        html {font-family: Arial; display: inline-block; text-align: center;}
+        .button-left {font-size: 1.5rem; 
+            color: white;
+            display: block;
+            margin-top: auto;
+            text-align: left;
+            border: solid #1DA1F2;
+            border-radius: 15px;
+            width: 75px;
+            padding-top: 2%;
+            padding-bottom: 2%;
+            padding-left: 7.5%;
+
+            margin-bottom: -1.91em;
+        }
+        .button-right {font-size: 1.5rem; 
+            color: white;
+            margin-top: auto;
+            text-align: right;
+            border: solid #ff0000;
+            border-radius: 15px;
+            width: 80px;
+            margin-left: 65%;
+            padding-top: 2%;
+            padding-bottom: 2%;
+            padding-right: 7.5%;
+            
+        }
+        h4 { font-size: 1.2rem;}
+        p { font-size: 1.4rem;}
+        body {  margin: 0; background-color: #121212;}
+        .switch {position: relative; display: inline-block; width: 120px; height: 68px; margin-bottom: 20px;}
+        .switch input {display: none;}
+        .topnav { overflow: hidden; background-color: #121212;}
+        .content { padding: 20px;}
+        .card { background-color: #1DA1F2; 
+            box-shadow: 2px 2px 12px 1px rgba(140,140,140,.5);
+            border-radius: 15px;
+        }
+
+        .cards { max-width: 640px; 
+            margin: 0 auto; 
+            display: grid; 
+            grid-gap: 1.5rem; 
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+        
+        .btn-primary
+            {
+    border: none;
+    padding: 2%;
+    width: 300px;
+    margin-top: 1.5%;
+    color: white;
+    background-color: #1DA1F2;
+    border-radius: 10px;
+    font-size: 1.2rem;
+            }
+       .reading { font-size: 2.6rem;}
+        .card-big{
+            height: 150px;
+            color: white;
+        }
+        .icon-pointer{ cursor: pointer;}
+
+        /* Slider */
+
+.slidecontainer {
+  width: 100%;
+}
+
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 10px;
+  border-radius: 5px;
+  /* background: #d3d3d3; */
+  background: linear-gradient(90deg, rgba(29,161,242,1) 0%, rgba(255,0,0,1) 100%, rgba(0,212,255,1) 100%);
+  outline: none;
+  opacity: 0.8;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider:hover {
+  opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #1DA1F2;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #1DA1F2;
+  cursor: pointer;
+}
+.slider_left{
+    margin-left: 60%;
+    text-align: center;
+    width: 80px;
+    height: 50px;
+    padding-top: 4%;
+    border: solid #1DA1F2;
+    border-width: 2px;
+    border-radius: 10px;
+}
+.slider_right{
+    text-align: center;
+    width: 80px;
+    height: 50px;
+    padding-top: 4%;
+    border: solid #ff0000;
+    border-width: 2px;
+    border-radius: 10px;
+}
+
+.active-preset
+{
+    margin-top: 15%;
+    background-color: #0065A4;
+    margin-left: 2%;
+    margin-right: 2%;
+    padding-top: 3%;
+    padding-bottom: 3%;
+    border-radius: 15px;
+}
+@media screen {
+    
+}
+
+      </style>
+    </head>
+    <body>
+      <div class="topnav">
+          <br>
+        <img src="https://i.imgur.com/5ncs2os.png" alt="SliderX logo" width="150px">
+      </div>
+      <div class="content">
+        <div class="cards">
+
+            <!-- Circle Selector -->
+          <div class="">
+
+            <div id="status1" style="color: blue display: none;">Joystick</div>
+<!-- <div id="status2" style="color: blue;">Joystick 2</div> -->
+
+<div style="width: 128px; position: relative; left:30%; ">
+	<img src="images/joystick-base.png"/>
+	<div id="stick1" style="position: absolute; left:32px; top:32px;">
+	<img src="images/joystick-blue.png"/>		
+	</div>
+</div>
+
+            <div style="border: 1px solid blue; width: 128px; position: absolute; left:500px; top:100px; display: none">
+                <img src="images/joystick-base.png"/>
+                <div id="stick2" style="position: absolute; left:32px; top:32px;">
+                <img src="images/joystick-blue.png"/>		
+                </div>
+            </div>
+            </div>
+
+            <!-- Button Selectors -->
+          <div class="">
+            <button type="button" class="btn btn-primary"><i class="fas fa-bolt"></i>&nbsp Power Mode</button>
+            <button type="button" class="btn btn-primary"><i class="fas fa-road"></i>&nbsp Path</button>
+            <button type="button" class="btn btn-primary"><i class="fas fa-deaf"></i>&nbsp Ultra Quiet</button>
+            <button type="button" class="btn btn-primary"><i class="fas fa-cog"></i>&nbsp Setting</button>
+        </div>
+        <!-- big Cards -->
+          <div class="card card-big">
+            <h4><i class="fas fa-arrows-alt-h"></i> &nbsp PRESET 1 &nbsp <i class="fas fa-times"></i></h4>
+            <div class="active-preset">
+                <i class="fas fa-camera"></i> 
+                &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+                &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+               <b>14 Min</b>
+            </div>
+          </div>
+          <div class="card card-big">
+            <h4><i class="fas fa-tools"></i> &nbsp PRESET 2</h4>
+          </div>
+          <div class="card card-big">
+            <h4><i class="fas fa-screwdriver"></i> &nbsp PRESET 3</h4>
+          </div>
+          <div class="card card-big">
+            <h4><i class="fas fa-tv"></i> &nbsp PRESET 4</h4>
+          </div>
+
+          <div class="">
+              
+              <h3 class="button-left">50%</h3>
+              <h3 class="button-right">MAX</h3>
+            <div class="slidecontainer">
+                <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
+              </div>
+           </div>
+
+           <div class="" style="padding-bottom: 10%;">
+              
+                <img src="1.png" alt="" style="margin-right: 45%; margin-bottom: 6%;">
+
+          
+                <img src="2.png" alt="" style="margin-bottom: 6%;">
+          
+          <div class="slidecontainer">
+              <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
+            </div>
+         </div>
+
+      </div>
+      </div>
+
+      <script>
+
+        class JoystickController
+        {
+            // stickID: ID of HTML element (representing joystick) that will be dragged
+            // maxDistance: maximum amount joystick can move in any direction
+            // deadzone: joystick must move at least this amount from origin to register value change
+            constructor( stickID, maxDistance, deadzone )
+            {
+                this.id = stickID;
+                let stick = document.getElementById(stickID);
+        
+                // location from which drag begins, used to calculate offsets
+                this.dragStart = null;
+        
+                // track touch identifier in case multiple joysticks present
+                this.touchId = null;
+                
+                this.active = false;
+                this.value = { x: 0, y: 0 }; 
+        
+                let self = this;
+        
+                function handleDown(event)
+                {
+                    self.active = true;
+        
+                    // all drag movements are instantaneous
+                    stick.style.transition = '0s';
+        
+                    // touch event fired before mouse event; prevent redundant mouse event from firing
+                    event.preventDefault();
+        
+                    if (event.changedTouches)
+                        self.dragStart = { x: event.changedTouches[0].clientX, y: event.changedTouches[0].clientY };
+                    else
+                        self.dragStart = { x: event.clientX, y: event.clientY };
+        
+                    // if this is a touch event, keep track of which one
+                    if (event.changedTouches)
+                        self.touchId = event.changedTouches[0].identifier;
+                }
+                
+                function handleMove(event) 
+                {
+                    if ( !self.active ) return;
+        
+                    // if this is a touch event, make sure it is the right one
+                    // also handle multiple simultaneous touchmove events
+                    let touchmoveId = null;
+                    if (event.changedTouches)
+                    {
+                        for (let i = 0; i < event.changedTouches.length; i++)
+                        {
+                            if (self.touchId == event.changedTouches[i].identifier)
+                            {
+                                touchmoveId = i;
+                                event.clientX = event.changedTouches[i].clientX;
+                                event.clientY = event.changedTouches[i].clientY;
+                            }
+                        }
+        
+                        if (touchmoveId == null) return;
+                    }
+        
+                    const xDiff = event.clientX - self.dragStart.x;
+                    const yDiff = event.clientY - self.dragStart.y;
+                    const angle = Math.atan2(yDiff, xDiff);
+                    const distance = Math.min(maxDistance, Math.hypot(xDiff, yDiff));
+                    const xPosition = distance * Math.cos(angle);
+                    const yPosition = distance * Math.sin(angle);
+        
+                    // move stick image to new position
+                    stick.style.transform = `translate3d(${xPosition}px, ${yPosition}px, 0px)`;
+        
+                    // deadzone adjustment
+                    const distance2 = (distance < deadzone) ? 0 : maxDistance / (maxDistance - deadzone) * (distance - deadzone);
+                    const xPosition2 = distance2 * Math.cos(angle);
+                    const yPosition2 = distance2 * Math.sin(angle);
+                    const xPercent = parseFloat((xPosition2 / maxDistance).toFixed(4));
+                    const yPercent = parseFloat((yPosition2 / maxDistance).toFixed(4));
+                    
+                    self.value = { x: xPercent, y: yPercent };
+                  }
+        
+                function handleUp(event) 
+                {
+                    if ( !self.active ) return;
+        
+                    // if this is a touch event, make sure it is the right one
+                    if (event.changedTouches && self.touchId != event.changedTouches[0].identifier) return;
+        
+                    // transition the joystick position back to center
+                    stick.style.transition = '.2s';
+                    stick.style.transform = `translate3d(0px, 0px, 0px)`;
+        
+                    // reset everything
+                    self.value = { x: 0, y: 0 };
+                    self.touchId = null;
+                    self.active = false;
+                }
+        
+                stick.addEventListener('mousedown', handleDown);
+                stick.addEventListener('touchstart', handleDown);
+                document.addEventListener('mousemove', handleMove, {passive: false});
+                document.addEventListener('touchmove', handleMove, {passive: false});
+                document.addEventListener('mouseup', handleUp);
+                document.addEventListener('touchend', handleUp);
+            }
+        }
+        
+        let joystick1 = new JoystickController("stick1", 64, 8);
+        let joystick2 = new JoystickController("stick2", 64, 8);
+        
+        function update()
+        {
+            document.getElementById("status1").innerText = "Joystick 1: " + JSON.stringify(joystick1.value);
+            document.getElementById("status2").innerText = "Joystick 2: " + JSON.stringify(joystick2.value);
+        }
+        
+        function loop()
+        {
+            requestAnimationFrame(loop);
+            update();
+        }
+        
+        loop();
+
+        var slider = document.getElementById("myRange");
+    var output = document.getElementById("demo");
+    output.innerHTML = slider.value;
+    
+    slider.oninput = function() {
+      output.innerHTML = this.value;
+    }
+        
+        </script>
+
+    <!-- <script>
+
+var slider = document.getElementById("myRange");
+    var output = document.getElementById("demo");
+    output.innerHTML = slider.value;
+    
+    slider.oninput = function() {
+      output.innerHTML = this.value;
+    }
+    
+    class JoystickController
+{
+	// stickID: ID of HTML element (representing joystick) that will be dragged
+	// maxDistance: maximum amount joystick can move in any direction
+	// deadzone: joystick must move at least this amount from origin to register value change
+	constructor( stickID, maxDistance, deadzone )
+	{
+		this.id = stickID;
+		let stick = document.getElementById(stickID);
+
+		// location from which drag begins, used to calculate offsets
+		this.dragStart = null;
+
+		// track touch identifier in case multiple joysticks present
+		this.touchId = null;
+		
+		this.active = false;
+		this.value = { x: 0, y: 0 }; 
+
+		let self = this;
+
+		function handleDown(event)
+		{
+		    self.active = true;
+
+			// all drag movements are instantaneous
+			stick.style.transition = '0s';
+
+			// touch event fired before mouse event; prevent redundant mouse event from firing
+			event.preventDefault();
+
+		    if (event.changedTouches)
+		    	self.dragStart = { x: event.changedTouches[0].clientX, y: event.changedTouches[0].clientY };
+		    else
+		    	self.dragStart = { x: event.clientX, y: event.clientY };
+
+			// if this is a touch event, keep track of which one
+		    if (event.changedTouches)
+		    	self.touchId = event.changedTouches[0].identifier;
+		}
+		
+		function handleMove(event) 
+		{
+		    if ( !self.active ) return;
+
+		    // if this is a touch event, make sure it is the right one
+		    // also handle multiple simultaneous touchmove events
+		    let touchmoveId = null;
+		    if (event.changedTouches)
+		    {
+		    	for (let i = 0; i < event.changedTouches.length; i++)
+		    	{
+		    		if (self.touchId == event.changedTouches[i].identifier)
+		    		{
+		    			touchmoveId = i;
+		    			event.clientX = event.changedTouches[i].clientX;
+		    			event.clientY = event.changedTouches[i].clientY;
+		    		}
+		    	}
+
+		    	if (touchmoveId == null) return;
+		    }
+
+		    const xDiff = event.clientX - self.dragStart.x;
+		    const yDiff = event.clientY - self.dragStart.y;
+		    const angle = Math.atan2(yDiff, xDiff);
+			const distance = Math.min(maxDistance, Math.hypot(xDiff, yDiff));
+			const xPosition = distance * Math.cos(angle);
+			const yPosition = distance * Math.sin(angle);
+
+			// move stick image to new position
+		    stick.style.transform = `translate3d(${xPosition}px, ${yPosition}px, 0px)`;
+
+			// deadzone adjustment
+			const distance2 = (distance < deadzone) ? 0 : maxDistance / (maxDistance - deadzone) * (distance - deadzone);
+		    const xPosition2 = distance2 * Math.cos(angle);
+			const yPosition2 = distance2 * Math.sin(angle);
+		    const xPercent = parseFloat((xPosition2 / maxDistance).toFixed(4));
+		    const yPercent = parseFloat((yPosition2 / maxDistance).toFixed(4));
+		    
+		    self.value = { x: xPercent, y: yPercent };
+		  }
+
+		function handleUp(event) 
+		{
+		    if ( !self.active ) return;
+
+		    // if this is a touch event, make sure it is the right one
+		    if (event.changedTouches && self.touchId != event.changedTouches[0].identifier) return;
+
+		    // transition the joystick position back to center
+		    stick.style.transition = '.2s';
+		    stick.style.transform = `translate3d(0px, 0px, 0px)`;
+
+		    // reset everything
+		    self.value = { x: 0, y: 0 };
+		    self.touchId = null;
+		    self.active = false;
+		}
+
+		stick.addEventListener('mousedown', handleDown);
+		stick.addEventListener('touchstart', handleDown);
+		document.addEventListener('mousemove', handleMove, {passive: false});
+		document.addEventListener('touchmove', handleMove, {passive: false});
+		document.addEventListener('mouseup', handleUp);
+		document.addEventListener('touchend', handleUp);
+	}
+}
+
+let joystick1 = new JoystickController("stick1", 64, 8);
+let joystick2 = new JoystickController("stick2", 64, 8);
+
+function update()
+{
+	document.getElementById("status1").innerText = "Joystick 1: " + JSON.stringify(joystick1.value);
+	document.getElementById("status2").innerText = "Joystick 2: " + JSON.stringify(joystick2.value);
+}
+
+function loop()
+{
+	requestAnimationFrame(loop);
+	update();
+}
+
+loop();
+    </script> -->
+    </body>
+    </html>
